@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+				 creationComplete="application1_creationCompleteHandler(event)" minWidth="955" minHeight="600">
+	<mx:Script>
+		<![CDATA[
+			import away3dlite.cameras.HoverCamera3D;
+			import away3dlite.containers.View3D;
+			
+			import mx.events.FlexEvent;
+			import mx.graphics.codec.PNGEncoder;
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var camera:HoverCamera3D = new HoverCamera3D;
+				var view:View3D = new View3D(null, camera);
+				this.rawChildren.addChild(view);
+				
+				var arr:Array = new Array;
+				arr.push(999);
+				trace(arr.length);
+				arr.splice(0,1);
+				trace(arr.length);
+				
+			}
+
+
+			protected function img_completeHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+
+			protected function img_mouseMoveHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var bitmap:Bitmap = Bitmap(img.content);
+				var bmd:BitmapData = bitmap.bitmapData;
+				var pix:uint;
+				pix = bmd.getPixel32(img.mouseX,img.mouseY);
+				//trace(pix.toString(16));
+			}
+
+
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var bitmap:Bitmap = Bitmap(img.content);
+				var bmd:BitmapData = bitmap.bitmapData;
+				var newbmd:BitmapData = new BitmapData(bmd.width,bmd.height);
+				var i:int;
+				var j:int;
+				var pix:uint;
+				var str:String;
+				var hexvalue:int;
+				for(i=0;i<bmd.width;i++)
+				{
+					for(j=0;j<bmd.height;j++)
+					{
+						pix = bmd.getPixel32(i,j);
+						str = pix.toString(16);
+						str = str.substr(0, str.length - 6);
+						hexvalue = int("0xff")-int("0x"+str);
+						str = "0x" + hexvalue.toString(16) + "000000";
+						newbmd.setPixel32(i,j,int(str));
+					}
+				}
+				this.rawChildren.addChild(new Bitmap(newbmd));
+				var png:PNGEncoder = new PNGEncoder();
+				var byt:ByteArray = png.encode(newbmd);
+				var f:FileReference = new FileReference();
+				f.save(byt);
+			}
+
+		]]>
+	</mx:Script>
+	<mx:Image id="img" source="mask.png" complete="img_completeHandler(event)" mouseMove="img_mouseMoveHandler(event)" />
+	<mx:Button click="button1_clickHandler(event)" />
+</mx:Application>

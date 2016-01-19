@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"  creationComplete="application1_creationCompleteHandler(event)"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			private var urlld:URLLoader = new URLLoader;
+			private var index:int = 1;
+			private var result:Array = [];
+			private var barr:ByteArray;
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				//System.useCodePage = true;
+				urlld.addEventListener(Event.COMPLETE, onload);
+				//urlld.load(new URLRequest("cgi-bin/"+index+".xml"));
+				urlld.load(new URLRequest("cgi-bin/o.xml"));
+			}
+			private function onload(e:Event):void
+			{
+				var xml:XML = new XML(urlld.data);
+				var i:int;
+				var c:int;
+				var cc:String = "";
+				var alls:Array = [];
+				var title:String;
+				for(i=0;i<xml.item.length();i++)
+				{
+					title = xml.item[i].title.toString();
+					title = title.split("\n").join(" ");
+					title = title.split("\r").join(" ");
+					alls.push({id:xml.item[i].@id.toXMLString(),archive:xml.item[i].@archive.toXMLString(),
+						title:title, pub:xml.item[i].pubDate.toString()});
+				}
+				alls.sortOn("pub");
+				for(i=0;i<alls.length;i++)
+				{
+					cc += alls[i].pub + "\n" + alls[i].title + "\n";
+				}
+				trace(cc);
+				/* result[index] = urlld.data;
+				index++;
+				if(index <= 30)
+				{
+					trace(index);
+					urlld.load(new URLRequest("cgi-bin/"+index+".xml"));
+				}
+				else
+				{
+					trace("OKKKKKKKKKKKKKKKK");
+					var i:int;
+					var str:String = "";
+					for(i=1;i<result.length;i++)
+					{
+						str += result[i];
+					}
+					barr = new ByteArray;
+					barr.writeUTFBytes(str);
+				} */
+			}
+
+
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var f:FileReference = new FileReference;
+				f.save(barr);
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Button id="btn" click="button1_clickHandler(event)" />
+</s:Application>
