@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TextArea xmlns:mx="http://www.adobe.com/2006/mxml"
+	 creationComplete="init()" enterFrame="onEnterFrame()" >
+	<mx:Script>
+		<![CDATA[
+			import flash.utils.setTimeout;
+			
+			private var masksp:Sprite = new Sprite;;
+			private var bitmap:Bitmap;
+			private var _multiline:Boolean;
+			private var lastText:String;
+			
+			private function init():void
+			{
+				testdraw();
+				this.textField.multiline = _multiline;
+				addChildAt(masksp,1);
+				/* masksp.graphics.beginFill(0xFF0000, 1);
+				masksp.graphics.drawRect(0,0,this.width,this.height);
+				masksp.graphics.endFill(); */
+					var rec:Rectangle = new Rectangle(5,5,10,20);
+					masksp.graphics.beginFill(0xFFFF00, 1);
+					masksp.graphics.drawRect(0, 0, 20, 20);
+					masksp.graphics.drawRect(50, 0, 20, 20);
+					masksp.graphics.endFill();
+				masksp.cacheAsBitmap = true;
+				this.textField.cacheAsBitmap = true;
+				this.textField.mask = masksp;
+			}
+			
+			public function set multiline(value:Boolean):void
+			{
+				_multiline = value;
+				if(this.textField)
+				{
+					this.textField.multiline = value;
+				}
+			}
+			public function get multiline():Boolean
+			{
+				return _multiline;
+			}
+			
+			public override function set htmlText(value:String):void
+			{
+				super.htmlText = value;
+				this.validateNow();
+				this.invalidateDisplayList();
+				trace(this.textField.text);
+			}
+			
+			public override function get htmlText():String
+			{
+				return super.htmlText;
+			}
+			
+			private function setText():void
+			{
+				masksp.graphics.clear();
+				var index:int;
+				var start:int;
+				var last:int;
+				index = this.text.indexOf("abc", start); 
+				if(index == -1)
+				{
+					masksp.graphics.beginFill(0xFFFF00, 1);
+					masksp.graphics.drawRect(0, 0, this.width, this.height);
+					masksp.graphics.endFill();
+				}
+				else
+				{
+					while(index > -1)
+					{
+						trace("mmmmmmmmmask");
+						var rec:Rectangle = this.textField.getCharBoundaries(index);
+						//removeChild(masksp);
+						//var masksp:Sprite = new Sprite;
+						masksp.graphics.beginFill(0xFFFF00, 1);
+						masksp.graphics.drawRect(last, 0, rec.x - last, this.height);
+						masksp.graphics.endFill();
+						last = rec.x + 3 * (rec.width);
+						start = index + 3;
+						index = this.text.indexOf("abc", start);
+						//addChild(masksp);
+						//this.textField.mask = masksp;
+						//this.text = this.text.substr(0, this.text.indexOf("abc")-1)+"   "+this.text.substr(this.text.indexOf("abc")+3);
+					}
+					masksp.graphics.beginFill(0xFFFF00, 1);
+					masksp.graphics.drawRect(last, 0, this.width - rec.x - 3 * (rec.width), this.height);
+					masksp.graphics.endFill();
+				}
+				//this.validateNow();
+				//this.invalidateDisplayList();
+			}
+			
+			public function testdraw():void
+			{
+				//trace(99);
+				if(bitmap)
+				{
+					bitmap.bitmapData.dispose();
+					removeChild(bitmap);
+					bitmap = null;
+				}
+				var bitmapdata:BitmapData = new BitmapData(this.width, this.height, true, 0xDDDDDD);
+				var tmpbitmap:Bitmap = new Faces.Mousedown;
+				bitmapdata.draw(tmpbitmap.bitmapData);
+				tmpbitmap.bitmapData.dispose();
+				bitmap = new Bitmap(bitmapdata);
+				bitmap.x = this.textField.text.length;
+				addChildAt(bitmap, 1);
+				setTimeout(testdraw, 100);
+			}
+			
+			private function onEnterFrame():void
+			{
+				if(lastText == this.text)
+				{
+					return;
+				}
+				lastText = this.text;
+				setText();
+			}
+		]]>
+	</mx:Script>
+</mx:TextArea>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute" xmlns:local="*" width="1000" height="600">
+	<mx:Script>
+		<![CDATA[
+			
+			private function onClick1():void
+			{
+				face.testdraw();
+			}
+			
+			private function onClick2():void
+			{
+				try{
+					(new LocalConnection).connect("foo");
+					(new LocalConnection).connect("foo");
+				}catch(e:*)
+				{
+					
+				}
+			}
+			
+			private function onClickHtml():void
+			{
+				face.htmlText = txt.text;
+			}
+		]]>
+	</mx:Script>
+	<local:TextFace multiline="true" backgroundAlpha="0" editable="true" id="face"
+		    width="361" height="137" x="32" y="91" verticalScrollPolicy="on"
+		  fontSize="12" fontFamily="宋体" wordWrap="true" horizontalScrollPolicy="off" text="dddddddddddddddddddddddddddd"/>
+	<mx:Button click="onClick1()" x="465" y="258" label="testdraw"/>
+	<mx:Button click="onClick2()" x="555.5" y="258" label="Foo"/>
+	<mx:TextArea x="465" y="91" id="txt"
+		  fontSize="12" fontFamily="宋体"/>
+	<mx:Button click="onClickHtml()" x="522" y="152" label="html"/>
+</mx:Application>
