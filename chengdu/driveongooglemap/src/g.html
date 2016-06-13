@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <title>Google 地图 JavaScript API 示例</title>
+  <script src="http://ditu.google.com/maps?file=api&amp;v=2"
+    type="text/javascript"></script>
+
+  <!-- 包含自定义控件的源文件 -->
+  <script src="ruler_js.html" type="text/javascript"></script>
+  <script type="text/javascript">
+  //<![CDATA[
+
+  // Copyright 2007 Google Inc.
+  // All Rights Reserved.
+
+  /**
+   * 这个例子演示了 Google Map API 的以下功能:
+   *   * 使用自定义控件
+   *
+   * 注意：为了在 IE6 中正常显示折线，必须在网页的 <HTML> 标签中加上：
+   *   <html xmlns:v="urn:schemas-microsoft-com:vml">
+   *
+   * @author haogang
+   */
+  
+
+  /**
+   * 创建地图控件，并添加一些基本的控件
+   */
+  function load() {
+  
+    if (GBrowserIsCompatible()) {
+      var map = new GMap2(document.getElementById('map'));
+      
+      // 给地图添加内置的控件，分别为：
+      // 平移及缩放控件（左上角）、比例尺控件（左下角）、缩略图控件（右下角）
+      //map.addControl(new GLargeMapControl());
+      map.addControl(new GScaleControl());
+      map.addControl(new GOverviewMapControl());
+      
+      // 添加自定义的控件
+      //map.addControl(new GRulerControl());
+
+      // 将视图移到北京
+      map.setCenter(new GLatLng(30.588864,104.078293), 13);
+    }
+  }
+
+  //]]>
+  </script>
+  </head>
+  <body onload="load()" onunload="GUnload()">
+    <b>提示：试试看在已有的标注上单击，或者拖拽它们！</b>
+    <div id="map" style="width: 650px; height: 450px;"></div>
+  </body>
+</html>
