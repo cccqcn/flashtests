@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+            xmlns:j="library://ns.apache.org/royale/express">
+    <fx:Script>
+		<![CDATA[
+            private function abc(e:Event):void{
+                alert(9);
+                // button.set
+            }
+		]]>
+    </fx:Script>
+    <j:initialView>
+        <j:View>
+            <j:Label text="Hello World" />
+            <j:TextButton id="button" text="buttontext"  width="250" height="80" 
+              click="abc(event)" ></j:TextButton>
+        </j:View>
+    </j:initialView>
+</j:Application>
