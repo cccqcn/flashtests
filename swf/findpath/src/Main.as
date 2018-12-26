@@ -20,6 +20,8 @@ package
         {
             Style.embedFonts = false;
             Style.fontSize = 12;
+            Style.LABEL_TEXT = 0x2b3d43;
+            Style.BUTTON_FACE = 0xc7d0d5;
             init();
         }
 

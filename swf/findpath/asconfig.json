@@ -4,6 +4,7 @@
         "library-path": [
             "libs"
         ],
+        "default-background-color": "#7f95a0",
         "default-size": {
             "width": 800,
             "height": 800

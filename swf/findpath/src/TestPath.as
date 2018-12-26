@@ -131,7 +131,7 @@ package
 			{
 				return;
 			}
-			var t:int = getTimer(); 
+			var t:Number = getTimer(); 
 			var fromp:int = int(playPoint.y)*MAP_WIDTH + int(playPoint.x);
 			var top:int = int(screen.mouseY)*MAP_WIDTH + int(screen.mouseX);
 			fromp.toString();
@@ -187,13 +187,21 @@ package
 		{
 			if (this.path == null || this.path.length == 0) 
 				return; 
-			
+			if(ui.anibtn.selected == false && event != null) {
+				if(this.path.length > 0) {
+					enterframeHandler(null);
+				}
+				return;
+			}
 			screen.bitmapData.setPixel(playPoint.x,playPoint.y,0xFFFFFF); 
 			playPoint = this.path.shift() as Point; 
 			screen.bitmapData.setPixel(playPoint.x,playPoint.y,0xFF0000); 
 			var index:int = int(playPoint.y)*MAP_WIDTH + int(playPoint.x);
 			ui.currentpos.text = index.toString();
 			lines.graphics.lineTo(playPoint.x*5+2.5, playPoint.y*5+2.5);
+			if(event == null) {
+				enterframeHandler(null);
+			}
 		} 
 		
 		private function setDatas(index:int, value:int):void
