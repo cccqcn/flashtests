@@ -1,0 +1,17 @@
+{
+    "config": "airmobile",
+    "compilerOptions": {
+        "library-path": [
+            "libs"
+        ],
+        "default-size": {
+            "width": 800,
+            "height": 800
+        },
+        "output": "bin/findpath.swf"
+    },
+    "files":
+    [
+        "src/Main.as"
+    ]
+}
